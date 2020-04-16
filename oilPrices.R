@@ -12,6 +12,8 @@ Quandl.api_key("")
 get()
 setwd()
 
+####  wtc is used for actual calculations as of 4/15/20 
+####  Unsure of efficacy 
 wtc <- read.csv("path")
 
 deduped <- unique(wtc)
