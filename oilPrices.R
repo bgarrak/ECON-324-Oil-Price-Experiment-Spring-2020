@@ -16,8 +16,10 @@ setwd()
 ####  Unsure of efficacy 
 wtc <- read.csv("path")
 
+# Make sure there are no duplicates
 deduped <- unique(wtc)
 
+# Data frame not used in final calculation
 # Start with daily data. Note that "type = raw" will download a data frame.
 oil_daily <- Quandl("FRED/DCOILWTICO", 
                     type = "raw", 
@@ -25,7 +27,7 @@ oil_daily <- Quandl("FRED/DCOILWTICO",
                     start_date = "2008-01-01", 
                     end_date = "2020-04-14")
 
-
+#### This function does not work on oil_daily
 # index(oil_daily) <- seq(mdy('01/01/2008'), mdy(last(index(oil_daily))), by = 'days')
 
 # highchart(type = "stock") %>% 
@@ -35,6 +37,8 @@ oil_daily <- Quandl("FRED/DCOILWTICO",
 #            opposite = FALSE) %>% 
 #   hc_add_theme(hc_theme_flat())
 
+#### auto.arima() claims wtc is not a univariate series
+#### The analysis on $Value works but is this no longer statistically sound?
 auto.arima(wtc$Value) %>%
   forecast(h = 28)
 #      Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
@@ -68,7 +72,7 @@ auto.arima(wtc$Value) %>%
 
 # 8663       25.99182 18.58577 33.39786 14.66525 37.31838   ###########################
 
-
+# I believe this will predict the price on May 4th, 2020 as $25.99182
 auto.arima(wtc$Value) %>%
   forecast(h = 28) %>%
   hchart() %>%
